@@ -46,7 +46,13 @@ public class EditViewController extends HttpServlet {
 			throws SQLException, ServletException, IOException {
 		BlogDaoImpl blogDAO = new BlogDaoImpl();
 		int id = Integer.parseInt(request.getParameter("id"));
-		Blog existingBlog = blogDAO.selectBlog(id);
+		Blog existingBlog = null;
+		try {
+			existingBlog = blogDAO.selectBlog(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/blogListView.jsp");
 		request.setAttribute("bloglist", existingBlog);
 		dispatcher.forward(request, response);

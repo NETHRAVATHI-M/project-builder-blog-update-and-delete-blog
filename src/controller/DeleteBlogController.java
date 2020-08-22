@@ -41,7 +41,12 @@ public class DeleteBlogController extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		BlogDaoImpl blogDAO = new BlogDaoImpl();
-		blogDAO.deleteBlog(id);
+		try {
+			blogDAO.deleteBlog(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		response.sendRedirect("allblogs");
 	}
 }

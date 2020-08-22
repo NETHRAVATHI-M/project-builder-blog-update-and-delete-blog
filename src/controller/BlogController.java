@@ -31,42 +31,48 @@ public class BlogController extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getServletPath();
 		System.out.println(action);
-		try {
-			switch (action) {
-			case "/new":
-				showNewForm(request, response);
-				break;
-			case "/insert":
-				//insertBlog(request, response);
-				break;
-			case "/delete":
-				//deleteBlog(request, response);
-				break;
-			case "/edit":
-				//showEditForm(request, response);
-				break;
-			case "/update":
-				//updateBlog(request, response);
-				break;
-			case "/list":
+		switch (action) {
+		case "/new":
+			showNewForm(request, response);
+			break;
+		case "/insert":
+			//insertBlog(request, response);
+			break;
+		case "/delete":
+			//deleteBlog(request, response);
+			break;
+		case "/edit":
+			//showEditForm(request, response);
+			break;
+		case "/update":
+			//updateBlog(request, response);
+			break;
+		case "/list":
+			try {
 				listBlog(request, response);
-				break;
-			default:
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
-				dispatcher.forward(request, response);
-				break;
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
-		} catch (SQLException ex) {
-			throw new ServletException(ex);
+			break;
+		default:
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/login.jsp");
+			dispatcher.forward(request, response);
+			break;
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		doGet(request, response);
+		try {
+			doGet(request, response);
+		} catch (ServletException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	private void listBlog(HttpServletRequest request, HttpServletResponse response)
-			throws SQLException, IOException, ServletException {
+			throws Exception {
 		BlogDaoImpl blogDAO = new BlogDaoImpl();
 		List<Blog> listBlog = blogDAO.selectAllBlogs();
 		request.setAttribute("listBlog", listBlog);
